@@ -1,0 +1,22 @@
+{
+  "name": "ideal_users_map",
+  "version": "1.0.0",
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "grunt": "^1.6.1",
+    "grunt-contrib-cssmin": "^4.0.0",
+    "grunt-contrib-uglify": "^5.2.2"
+  },
+  "scripts": {
+    "build": "grunt"
+  },
+  "main": "Gruntfile.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "grunt-contrib-clean": "^2.0.1",
+    "grunt-contrib-watch": "^1.1.0"
+  }
+}

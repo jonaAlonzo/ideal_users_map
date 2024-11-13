@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script src="../blocks/ideal_users_map/amd/src/map.js"></script>
+    <link rel="stylesheet" href='../blocks/ideal_users_map/amd/css/styles.css' type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/togeojson@latest/togeojson.js"></script>
+</head>
+<body>
+    <div id="container_map">
+        <div id="map"></div>
+    </div>
+    <section class="section_flags">
+        <div class="container_flags" id="container">
+        <a id="total_users">
+          <img id="earth_img" width="34" height="34" src="https://img.icons8.com/cute-clipart/64/globe.png" alt="globe"/>
+                {{#str}} all_users, block_ideal_users_map {{/str}}
+
+        </a>
+        </div>
+    </section>
+
+    <script>
+        var total=`{{{total}}}`;
+        var kmlData = `{{{ kml }}}`;
+        var flags = {{{country_for_flags}}};
+
+   
+    </script>
+</body>
+</html>
