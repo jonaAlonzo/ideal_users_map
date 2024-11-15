@@ -22,7 +22,6 @@ function flags_render() {
                 var txt = countryData.country + "    " + countryData.count + "          ";
 
                 var txt_count_country = document.createTextNode(txt);
-                console.error(countryData.country);
 
                 div_flag.appendChild(img_flag);
                 div_flag.appendChild(txt_count_country);
