@@ -1,7 +1,6 @@
 #map {
     width: 60%;
     height: 450px;
-    display: table-cell !important;
     margin: 0 auto;
     border-radius:25px;
     margin-bottom: 3%;
@@ -29,8 +28,14 @@ img#earth_img{
 
 @media (max-width: 768px) {
     #map {
-        width: 350px;
+        width: 100%;
         height: 427px;
+        display: flex !important;
+
+    }
+    .block_ideal_users_map {
+        display: flex;
+        align-items: stretch;
     }
 
 }
