@@ -1,6 +1,7 @@
 #map {
     width: 60%;
     height: 450px;
+    display: table-cell !important;
     margin: 0 auto;
     border-radius:25px;
     margin-bottom: 3%;
@@ -30,7 +31,6 @@ img#earth_img{
     #map {
         width: 350px;
         height: 427px;
-        display: flow-root;
     }
 
 }
