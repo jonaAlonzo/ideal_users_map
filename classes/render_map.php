@@ -18,7 +18,6 @@ function get_last_ips_moodle()
 function get_data_function_moodle($ip)
 {
     global $CFG;
-
     $city_ok = []; 
 
     try {
@@ -57,9 +56,9 @@ function get_data_function_moodle($ip)
 }
 
 
-
 function citys_users()
 {
+
     $ips = [];
     try{
         $ips = get_last_ips_moodle();
@@ -81,11 +80,15 @@ function render_map_api() {
         $kml = data_kml();
         $country_for_flags_ = datos_for_kml();
         $country_for_flags = $country_for_flags_['country_counts'];
+        $users_moodle_country_city=get_user_local_country_CODE();
+        $city=get_user_local_country_CODE();
         if (!empty($kml)) {
             // Renderiza los datos a través de Mustache y los pasa a la plantilla 'map'
             echo $OUTPUT->render_from_template('block_ideal_users_map/map', [
                 'kml' => $kml,
-                'country_for_flags' => json_encode($country_for_flags), // Agrega este array a los datos enviados
+                'country_for_flags' => json_encode($country_for_flags), 
+                'users_moodle_city_country'=>json_encode($users_moodle_country_city),
+                'city_'=>json_encode($city),
             ]);
         }
     }catch(Exception $e){

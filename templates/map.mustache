@@ -10,16 +10,23 @@
     <script src="https://unpkg.com/togeojson@latest/togeojson.js"></script>
 </head>
 <body>
+        <div class="container_flags_field_users" id="container_flags_field_users">
+        </div>
     <div id="container_map">
         <div id="map"></div>
     </div>
     <section class="section_flags">
-        <div class="container_flags" id="container">
-        <a id="total_users">
+            <a id="total_users">
           <img id="earth_img" width="34" height="34" src="https://img.icons8.com/cute-clipart/64/globe.png" alt="globe"/>
                 {{#str}} all_users, block_ideal_users_map {{/str}}
-
         </a>
+
+        <div class="container_flags" id="container">
+                <a id="total_users_connected">
+          <img id="connected_img" width="24" height="24" src="../blocks/ideal_users_map/media/connected/connected.png"/>
+              {{#str}} connected_from, block_ideal_users_map {{/str}}
+        </a>
+
         </div>
     </section>
 
@@ -27,8 +34,8 @@
         var total=`{{{total}}}`;
         var kmlData = `{{{ kml }}}`;
         var flags = {{{country_for_flags}}};
-
-   
+        var users_moodle_city={{{users_moodle_city_country}}};
+        var city={{{city_}}};
     </script>
 </body>
 </html>

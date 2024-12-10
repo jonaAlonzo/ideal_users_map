@@ -1,4 +1,36 @@
 <?php
+function get_user_local_country_CODE(){
+    global $DB;
+    $sql=sql_last_ip();
+    $users_search = $DB->get_records_sql($sql, null);
+    $ids=[];
+    foreach ($users_search as $user) {
+        $ids[] = $user->id; 
+    }
+
+    try {
+        $results = []; 
+        for ($i = 0; $i < count($ids); $i++) {
+            $sql = "
+                SELECT
+                    id,
+                    city,
+                    country
+                FROM
+                    {user}
+                WHERE
+                    id = $ids[$i]
+            ";
+            $users_country_code_field_user = $DB->get_records_sql($sql, null);
+        
+            $results[$ids[$i]] = $users_country_code_field_user;
+        }
+        return $results;
+    } catch (dml_exception $e) {
+        debugging('Error SQL: ' . $e->getMessage(), DEBUG_DEVELOPER);
+        return [];
+    }
+}
 
 function sql_comprovate_city_intable($city, $iso2){
     try {

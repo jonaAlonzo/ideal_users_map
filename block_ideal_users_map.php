@@ -7,7 +7,7 @@
 class block_ideal_users_map extends block_base {
 
     public function init() {
-        $this->title = get_string('pluginname', 'block_ideal_users_map');
+        $this->title = get_string('total_hub', 'block_ideal_users_map');
     }
 
     public function get_content() {
