@@ -5,13 +5,39 @@
     border-radius:25px;
     margin-bottom: 3%;
 }
+/*CONTENEDOR FLAGS PROFILE*/
+div#container_flags_field_users {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2%;
+}
+/*TITLE FLAGS PROFILE*/
+h4#user_total {
+    padding: 2px;
+    margin: 0 auto;
+    transform: translate(8%, -4%);
+    font-size: large;
+    font-weight: normal;
+}
+.flag-container_users_field {
+    margin-left: 1%;
+}
+img#img_container_users_field {
+    width: 32px;
+}
 div#container{
     margin: 0 auto;
 }
-div#container_flags_field_users {
-    display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 3%;
+.block_ideal_users_map #container_total_users {
+    position: relative;
+    display: inline-flex;
+}
+img#user_img {
+    position: relative;
+    transform: translateY(-10%);
+    padding: 1%;
 }
 .flag-container{
     display: contents;

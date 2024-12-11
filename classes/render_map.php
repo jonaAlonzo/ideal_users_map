@@ -81,6 +81,7 @@ function render_map_api() {
         $country_for_flags_ = datos_for_kml();
         $country_for_flags = $country_for_flags_['country_counts'];
         $users_moodle_country_city=get_user_local_country_CODE();
+        $countrysNames=get_name_country_lang_moodle();
         $city=get_user_local_country_CODE();
         if (!empty($kml)) {
             // Renderiza los datos a través de Mustache y los pasa a la plantilla 'map'
@@ -89,6 +90,7 @@ function render_map_api() {
                 'country_for_flags' => json_encode($country_for_flags), 
                 'users_moodle_city_country'=>json_encode($users_moodle_country_city),
                 'city_'=>json_encode($city),
+                'name_country'=>json_encode($countrysNames),
             ]);
         }
     }catch(Exception $e){

@@ -1,4 +1,38 @@
 <?php
+function get_name_country_lang_moodle() {
+    global $CFG;
+
+    // Inicializar el array de resultados
+    $codeCountry_countryName = [];
+
+    // Determinar el idioma actual
+    $currentLang = current_language();
+    
+    // Ruta del archivo de idioma en el idioma actual
+    $langfile = $CFG->dirroot . '/lang/' . $currentLang . '/countries.php';
+    
+    // Ruta predeterminada para inglés si no se encuentra en el idioma actual
+    if (!file_exists($langfile)) {
+        $langfile = $CFG->dirroot . '/lang/en/countries.php';
+    }
+
+    // Verificar si el archivo existe
+    if (file_exists($langfile)) {
+        include($langfile); // Cargar el archivo
+        
+        // Revisar si contiene el array $string
+        if (!empty($string)) {
+            foreach ($string as $code => $name) {
+                $codeCountry_countryName[$code] = $name;
+            }
+        }
+    } else {
+        echo "No se encontró el archivo countries.php en el idioma actual o predeterminado.";
+    }
+
+    return $codeCountry_countryName;
+}
+
 function get_user_local_country_CODE(){
     global $DB;
     $sql=sql_last_ip();

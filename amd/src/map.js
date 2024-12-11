@@ -1,6 +1,9 @@
 function data_kml() {
     try {
         var data_km = window.kmlData;
+        if (!data_km) {
+            throw new Error("kmlData no está definido.");
+        }
         return data_km;
     } catch (error) {
         console.error("Error en data_kml:", error);
@@ -10,36 +13,87 @@ function data_kml() {
 
 function set_total_platform(total_users) {
     try {
-        var title_ideal_users_map = document.querySelector('.block_ideal_users_map .h5'); // Selecciona el primer elemento que coincide
+        var title_ideal_users_map = document.querySelector('#user_total'); // Selecciona el primer elemento que coincide
         if (title_ideal_users_map) {
-            var img_user_title = document.createElement("img");
-            var a_img_user_title = document.createElement("a");
-
-            img_user_title.setAttribute("id", "img_container_users_field");
-            img_user_title.src = `../blocks/ideal_users_map/media/connected/users.png`;
-            img_user_title.style.width = '30px';
-            img_user_title.style.height = '30px';
-            img_user_title.style.position = "relative";
-            img_user_title.style.display = "inline-block";
-            img_user_title.style.padding = "2px";
-            img_user_title.style.transform = "translateY(-12%)";
-
-            title_ideal_users_map.appendChild(a_img_user_title);
-            a_img_user_title.appendChild(img_user_title);
-
             var total = document.createTextNode("  " + total_users + "  ");
             title_ideal_users_map.appendChild(total);
         } else {
-            console.error("El título no se encontró");
+            console.error("error title");
         }
     } catch (error) {
         console.error("Error en set_total_platform:", error);
     }
 }
+function get_code_V_flags(flags){
+    var codes = [];
+    try {
+        for (var code in flags) {
+            if (flags.hasOwnProperty(code)) {
+                codes.push(code);
+            }
+        }
+        return codes;
+    } catch (error) {
+        console.error("Error in get_code_V_flags:", error);
+        return codes; 
+    }
+}
+
+function compare_code_country(code_country) {
+    try {
+        var flags = window.flags;
+
+        if (!flags) {
+            throw new Error("La variable 'flags' no está definida.");
+        }
+
+        var codes = get_code_V_flags(flags);
+
+        if (!Array.isArray(codes)) {
+            throw new Error("El resultado de 'get_code_V_flags(flags)' no es un array.");
+        }
+
+        return codes.includes(code_country);
+    } catch (error) {
+        console.error("Error en compare_code_country:", error);
+        return false;
+    }
+}
+
+
+function generate_flag(div_flag, txt, img_flag, div_container, country, name_country, countryCount, src) {
+    try {
+        div_flag.className = 'flag-container_users_field';
+        div_flag.setAttribute("id", country);
+
+        img_flag.setAttribute("class", name_country);
+        img_flag.setAttribute("id", "img_container_users_field");
+        img_flag.src = src;
+        img_flag.alt = country;
+
+        txt = " " + name_country + "  " + countryCount;
+        const txt_count_country = document.createTextNode(txt);
+
+        div_flag.appendChild(img_flag);
+        div_flag.appendChild(txt_count_country);
+
+        if (!div_container) {
+            throw new Error("The container 'div_container' not defined.");
+        }
+
+        div_container.appendChild(div_flag);
+    } catch (error) {
+        console.error("Error generate flag:", error);
+    }
+}
+
 
 function users_code_field() {
     try {
+        var indefinidos = 0;
+        var total_users = 0;
         var countryCount = [];
+        var flags = window.flags;
         var users_moodle_cit = window.users_moodle_city;
         var div_container = document.getElementById('container_flags_field_users');
 
@@ -52,40 +106,47 @@ function users_code_field() {
                 var innerObject = users_moodle_cit[outerKey];
                 for (var innerKey in innerObject) {
                     if (innerObject.hasOwnProperty(innerKey)) {
-                        var country = innerObject[innerKey].country; // Acceder al país
-                        if (country) {
-                            countryCount[country] = (countryCount[country] || 0) + 1;
+                        try {
+                            var country = innerObject[innerKey].country;
+                            if (compare_code_country(country)) {
+                                countryCount[country] = (countryCount[country] || 0) + 1;
+                            } else {
+                                indefinidos++;
+                            }
+                        } catch (error) {
+                            console.error("Error al procesar usuario dentro de innerObject:", error);
                         }
                     }
+                    total_users++;
                 }
             }
-        }
-
-        var total_users = 0;
-        for (var n in countryCount) {
-            total_users += countryCount[n];
         }
 
         set_total_platform(total_users);
 
         for (var country in countryCount) {
+            var img_flag = document.createElement("img");
+            var div_flag = document.createElement("div");
+            var txt = " ";
+
             if (countryCount.hasOwnProperty(country)) {
                 try {
-                    var countryData = countryCount;
-                    var img_flag = document.createElement("img");
-                    var div_flag = document.createElement("div");
-                    div_flag.className = 'flag-container_users_field';
-                    img_flag.setAttribute("id", "img_container_users_field");
-                    img_flag.src = `https://flagcdn.com/32x24/${country.toLowerCase()}.png`;
-                    img_flag.alt = country;
-
-                    var txt = "  " + countryCount[country];
-
-                    var txt_count_country = document.createTextNode(txt);
-
-                    div_flag.appendChild(img_flag);
-                    div_flag.appendChild(txt_count_country);
-                    div_container.appendChild(div_flag);
+                    for (var code in flags) {
+                        if (flags.hasOwnProperty(code)) {
+                            try {
+                                var countryData = flags[code];
+                                var name_country = countryData.country;
+                                if (code === country) {
+                                    var country_ = country.toLowerCase();
+                                    var src = "https://flagcdn.com/32x24/" + country_ + ".png";
+                                    var t_flag = countryCount[country];
+                                    generate_flag(div_flag, txt, img_flag, div_container, country_, name_country, t_flag, src);
+                                }
+                            } catch (error) {
+                                console.error("Error al generar la bandera para el país:", code, error);
+                            }
+                        }
+                    }
                 } catch (error) {
                     console.error("Error al procesar el país:", country, error);
                 }
@@ -94,9 +155,23 @@ function users_code_field() {
     } catch (error) {
         console.error("Error en users_code_field:", error);
     }
+    try {
+        set_flag_undefined();
+        var undefinedsFlags = document.querySelector("#undefined_flag");
+
+        if (undefinedsFlags) {
+            var txtUndefined = document.createTextNode(indefinidos);
+            undefinedsFlags.appendChild(txtUndefined);
+        } else {
+            console.warn("No se encontró el contenedor 'undefined_flag'.");
+        }
+    } catch (error) {
+        console.error("Error al procesar usuarios indefinidos:", error);
+    }
 }
 
 function flags_render() {
+
     var flags_ = window.flags;
     var div_container = document.getElementById('container');
     try {
@@ -112,9 +187,7 @@ function flags_render() {
                 img_flag.alt = countryData.country;
 
                 var txt = countryData.country + "    " + countryData.count + "          ";
-
                 var txt_count_country = document.createTextNode(txt);
-
                 div_flag.appendChild(img_flag);
                 div_flag.appendChild(txt_count_country);
                 div_container.appendChild(div_flag);
@@ -129,36 +202,41 @@ function flags_render() {
  
 function render_map() {
     var map = L.map('map').setView([47.1260, -3.2551], 4);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        maxZoom: 11,
-        attribution: '&copy; <a href="https://www.openstreetmap.org">OpenStreetMap</a> contributors, CC BY 4.0  <a href="https://simplemaps.com">SimpleMaps</a>',
-    }).addTo(map);
+    try {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            maxZoom: 11,
+            attribution: '&copy; <a href="https://www.openstreetmap.org">OpenStreetMap</a> contributors, CC BY 4.0  <a href="https://simplemaps.com">SimpleMaps</a>',
+        }).addTo(map);
 
-    function onEachFeature(feature, layer) {
-        if (feature.properties && feature.properties.description) {
-            layer.bindPopup(feature.properties.description); // Mostrar la descripción cuando se hace clic
+        var kmlText = data_kml();
+
+        if (kmlText && kmlText.trim() !== '') {
+            try {
+                var parser = new DOMParser();
+                var kml = parser.parseFromString(kmlText, 'text/xml');
+                var geojson = toGeoJSON.kml(kml);
+
+                L.geoJSON(geojson, {
+                    onEachFeature: function(feature, layer) {
+                        if (feature.properties && feature.properties.description) {
+                            layer.bindPopup(feature.properties.description);
+                        }
+                    }  
+                }).addTo(map);
+            } catch (error) {
+                console.error('Error al procesar el KML:', error);
+            }
+        } else {
+            console.error('Datos KML vacíos, intentando cargar el archivo de respaldo.');
         }
+
+    } catch (error) {
+        console.error('Error al renderizar el mapa:', error);
     }
 
-    var kmlText = data_kml();
-
-    if (kmlText && kmlText.trim() !== '') {
-        try {
-            var parser = new DOMParser();
-            var kml = parser.parseFromString(kmlText, 'text/xml');
-            var geojson = toGeoJSON.kml(kml);
-
-            L.geoJSON(geojson, {
-                onEachFeature: onEachFeature  
-            }).addTo(map);
-        } catch (error) {
-            console.error('Error al procesar el KML:', error);
-        }
-    } else {
-        console.error('Datos KML vacíos, intentando cargar el archivo de respaldo.');
-    }
     flags_render();
 }
+
 
 function get_total_users(flags){
     var totalCount = 0;
@@ -176,3 +254,13 @@ function get_total_users(flags){
 
     }
 }
+
+function set_flag_undefined(){
+    var img_flag = document.createElement("img");
+    var div_flag = document.createElement("div");
+    var txt = "";
+    var div_container = document.getElementById('container_flags_field_users');
+
+    generate_flag(div_flag, txt,img_flag,div_container,"undefined_flag","Undefined","","../blocks/ideal_users_map/media/connected/undef.png");
+}
+
