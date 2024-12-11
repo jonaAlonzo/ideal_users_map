@@ -7,18 +7,19 @@
 }
 /*CONTENEDOR FLAGS PROFILE*/
 div#container_flags_field_users {
-    position: relative;
     display: flex;
+    margin-bottom: 3%;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-bottom: 2%;
 }
 /*TITLE FLAGS PROFILE*/
 h4#user_total {
-    padding: 2px;
+    display: inline-flex;
+    padding: 3px;
     margin: 0 auto;
-    transform: translate(8%, -4%);
-    font-size: large;
+    transform: translate(-1%, -5%);
+    font-size: medium;
     font-weight: normal;
 }
 .flag-container_users_field {
