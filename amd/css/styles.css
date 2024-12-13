@@ -17,9 +17,8 @@ div#container_flags_field_users {
 h4#user_total {
     display: inline-flex;
     padding: 3px;
-    margin: 0 auto;
     transform: translate(-1%, -5%);
-    font-size: medium;
+    font-size: 17px;
     font-weight: normal;
 }
 .flag-container_users_field {
@@ -34,6 +33,10 @@ div#container{
 .block_ideal_users_map #container_total_users {
     position: relative;
     display: inline-flex;
+    font-size: initial;
+}
+a#total_users{
+    font-size: medium;
 }
 img#user_img {
     position: relative;
